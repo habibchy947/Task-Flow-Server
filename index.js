@@ -71,7 +71,22 @@ async function run() {
       res.send(result)
     })
 
-    // 
+    //edit task
+    app.put('/tasks/:id', async(req,res) => {
+      const id = req.params.id
+      const task = req.body
+      const filter = {_id : new ObjectId(id)} 
+      const options = { upsert: true };
+      const updatedDoc = {
+        $set: {
+          title: task.title,
+          description: task.description,
+          category: task.category
+        }
+      }
+      const result = await taskCollection.updateOne(filter, updatedDoc, options);
+      res.send(result)
+    })
 
     app.delete('/tasks/:id', async(req,res)=>{
       const id = req.params.id
