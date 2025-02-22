@@ -88,6 +88,22 @@ async function run() {
       res.send(result)
     })
 
+
+    // drag
+    app.put('/dragTask/:id', async (req,res) => {
+      const id = req.params.id
+      const {category} = req.body
+      const filter = {_id: new ObjectId(id)}
+      const updatedTask = {
+        $set:{
+          category: category
+        }
+      }
+
+      const result = await taskCollection.updateOne(filter,updatedTask)
+      res.send(result)
+    })
+
     app.delete('/tasks/:id', async(req,res)=>{
       const id = req.params.id
       console.log(id)
